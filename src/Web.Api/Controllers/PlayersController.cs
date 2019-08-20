@@ -33,9 +33,9 @@ namespace Web.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Player>> Post()
+        public async Task<ActionResult<Player>> Post([FromBody]Player p)
         {
-            return await _playerRepository.Add(new Player("Jovan", "Petkoski", 184, 91, new DateTime(1995, 1, 20)) { Created = DateTime.UtcNow });
+            return await _playerRepository.Add(new Player(p.FirstName, p.LastName, p.HeightCm, p.WeightKg, p.BirthDate) { Id = p.Id, Created = DateTime.UtcNow });
         }
 
         // DELETE api/players/{id}

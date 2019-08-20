@@ -9,6 +9,7 @@ using Xunit;
 
 namespace Web.Api.IntegrationTests.Controllers
 {
+    [Collection("Sequential")]
     public class PlayersControllerIntegrationTests : IClassFixture<CustomWebApplicationFactory<Startup>>
     {
         private readonly HttpClient _client;
@@ -16,6 +17,19 @@ namespace Web.Api.IntegrationTests.Controllers
         public PlayersControllerIntegrationTests(CustomWebApplicationFactory<Startup> factory)
         {
             _client = factory.CreateClient();
+        }
+
+        [Fact]
+        public async Task CanAddPlayer()
+        {
+            var data = new Player("Jovan2", "Petkoski", 184, 91, new DateTime(1995, 1, 20)) { Id = 5, Created = DateTime.UtcNow };
+            var json = JsonConvert.SerializeObject(data);
+            var stringContent = new StringContent(json, UnicodeEncoding.UTF8, "application/json");
+
+            //ADD
+            var httpResponse = await _client.PostAsJsonAsync("/api/players/", data);
+
+            //httpResponse.EnsureSuccessStatusCode();
         }
 
         [Fact]
@@ -38,6 +52,7 @@ namespace Web.Api.IntegrationTests.Controllers
         [Theory]
         [InlineData(1, "Wayne")]
         [InlineData(3, "Jovan")]
+        [InlineData(5, "Jovan2")]
         public async Task CanGetPlayerById(int id, string firstName)
         {
             // The endpoint or route of the controller action.
@@ -52,21 +67,5 @@ namespace Web.Api.IntegrationTests.Controllers
             Assert.Equal(id, player.Id);
             Assert.Equal(firstName, player.FirstName);
         }
-
-        //[Fact]
-        //public async Task CanAddPlayer()
-        //{
-        //    var data = new Player("Jovan", "Petkoski", 184, 91, new DateTime(1995, 1, 20)) { Id = 16, Created = DateTime.UtcNow };
-        //    var json = JsonConvert.SerializeObject(data);
-        //    var stringContent = new StringContent(json, UnicodeEncoding.UTF8, "application/json");
-
-        //    //ADD
-        //    var httpResponse = await _client.PostAsJsonAsync("/api/players/", data);
-
-        //    httpResponse.EnsureSuccessStatusCode();
-
-        //    var stringResponse = await httpResponse.Content.ReadAsStringAsync();
-        //    var player = JsonConvert.DeserializeObject<Player>(stringResponse);
-        //}
     }
 }
