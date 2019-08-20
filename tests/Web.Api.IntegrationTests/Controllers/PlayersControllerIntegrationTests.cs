@@ -28,7 +28,7 @@ namespace Web.Api.IntegrationTests.Controllers
             // Deserialize and examine results.
             var stringResponse = await httpResponse.Content.ReadAsStringAsync();
             var players = JsonConvert.DeserializeObject<IEnumerable<Player>>(stringResponse);
-            Assert.Contains(players, p => p.FirstName=="Wayne");
+            Assert.Contains(players, p => p.FirstName == "Wayne");
             Assert.Contains(players, p => p.FirstName == "Mario");
         }
 
@@ -45,7 +45,7 @@ namespace Web.Api.IntegrationTests.Controllers
             // Deserialize and examine results.
             var stringResponse = await httpResponse.Content.ReadAsStringAsync();
             var player = JsonConvert.DeserializeObject<Player>(stringResponse);
-            Assert.Equal(1,player.Id);
+            Assert.Equal(1, player.Id);
             Assert.Equal("Wayne", player.FirstName);
         }
     }

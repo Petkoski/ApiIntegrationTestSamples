@@ -24,11 +24,19 @@ namespace Web.Api.Controllers
             return await _playerRepository.ListAll();
         }
 
-        // GET api/players/5
+        // GET api/players/{id}
         [HttpGet("{id}")]
         public async Task<ActionResult<Player>> Get(int id)
         {
             return await _playerRepository.GetById(id);
+        }
+
+        // DELETE api/players/{id}
+        [HttpDelete("{id}")]
+        public async void Delete(int id)
+        {
+            Player player = _playerRepository.GetTById(id);
+            await _playerRepository.Delete(player);
         }
     }
 }

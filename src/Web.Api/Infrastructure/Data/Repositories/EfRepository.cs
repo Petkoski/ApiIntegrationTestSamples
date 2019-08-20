@@ -21,6 +21,12 @@ namespace Web.Api.Infrastructure.Data.Repositories
             return await _appDbContext.Set<T>().FindAsync(id);
         }
 
+        public T GetTById(int id)
+        {
+            //return _appDbContext.Players.FirstOrDefault(p => p.Id == id);
+            return _appDbContext.Set<T>().FirstOrDefault(p => p.Id == id);
+        }
+
         public async Task<List<T>> ListAll()
         {
             return await _appDbContext.Set<T>().ToListAsync();

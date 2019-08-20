@@ -13,6 +13,7 @@ namespace Web.Api.Infrastructure.Data
         {
 
         }
+
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
         }

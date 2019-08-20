@@ -7,6 +7,7 @@ namespace Web.Api.Core.Interfaces.Gateways.Repositories
     public interface IRepository<T> where T : BaseEntity
     {
         Task<T> GetById(int id);
+        T GetTById(int id);
         Task<List<T>> ListAll();
         Task<T> GetSingleBySpec(ISpecification<T> spec);
         Task<List<T>> List(ISpecification<T> spec);
