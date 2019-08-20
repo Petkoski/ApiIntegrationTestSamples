@@ -42,13 +42,13 @@ namespace Web.Api.IntegrationTests
 
                     try
                     {
-                        // Seed the database with some specific test data.
+                        //Seed the database with some specific test data.
                         SeedData.PopulateTestData(appDb);
                     }
                     catch (Exception ex)
                     {
                         logger.LogError(ex, "An error occurred seeding the " +
-                                            "database with test messages. Error: {ex.Message}");
+                                            $"database with test messages. Error: {ex.Message}");
                     }
                 }
             });

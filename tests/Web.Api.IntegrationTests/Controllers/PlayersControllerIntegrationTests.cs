@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Web.Api.Core.Domain.Entities;
@@ -30,14 +32,16 @@ namespace Web.Api.IntegrationTests.Controllers
             var players = JsonConvert.DeserializeObject<IEnumerable<Player>>(stringResponse);
             Assert.Contains(players, p => p.FirstName == "Wayne");
             Assert.Contains(players, p => p.FirstName == "Mario");
+            Assert.Contains(players, p => p.FirstName == "Jovan");
         }
 
-
-        [Fact]
-        public async Task CanGetPlayerById()
+        [Theory]
+        [InlineData(1, "Wayne")]
+        [InlineData(3, "Jovan")]
+        public async Task CanGetPlayerById(int id, string firstName)
         {
             // The endpoint or route of the controller action.
-            var httpResponse = await _client.GetAsync("/api/players/1");
+            var httpResponse = await _client.GetAsync($"/api/players/{id}");
 
             // Must be successful.
             httpResponse.EnsureSuccessStatusCode();
@@ -45,8 +49,24 @@ namespace Web.Api.IntegrationTests.Controllers
             // Deserialize and examine results.
             var stringResponse = await httpResponse.Content.ReadAsStringAsync();
             var player = JsonConvert.DeserializeObject<Player>(stringResponse);
-            Assert.Equal(1, player.Id);
-            Assert.Equal("Wayne", player.FirstName);
+            Assert.Equal(id, player.Id);
+            Assert.Equal(firstName, player.FirstName);
         }
+
+        //[Fact]
+        //public async Task CanAddPlayer()
+        //{
+        //    var data = new Player("Jovan", "Petkoski", 184, 91, new DateTime(1995, 1, 20)) { Id = 16, Created = DateTime.UtcNow };
+        //    var json = JsonConvert.SerializeObject(data);
+        //    var stringContent = new StringContent(json, UnicodeEncoding.UTF8, "application/json");
+
+        //    //ADD
+        //    var httpResponse = await _client.PostAsJsonAsync("/api/players/", data);
+
+        //    httpResponse.EnsureSuccessStatusCode();
+
+        //    var stringResponse = await httpResponse.Content.ReadAsStringAsync();
+        //    var player = JsonConvert.DeserializeObject<Player>(stringResponse);
+        //}
     }
 }

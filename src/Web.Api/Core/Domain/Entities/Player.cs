@@ -15,7 +15,7 @@ namespace Web.Api.Core.Domain.Entities
         internal Player() { /* Required by EF */ }
 
         [JsonConstructor]
-        internal Player(string firstName, string lastName, int heightCm, decimal weightKg,DateTime birthDate)
+        internal Player(string firstName, string lastName, int heightCm, decimal weightKg, DateTime birthDate)
         {
             FirstName = firstName;
             LastName = lastName;

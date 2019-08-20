@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Web.Api.Core.Domain.Entities;
@@ -29,6 +30,12 @@ namespace Web.Api.Controllers
         public async Task<ActionResult<Player>> Get(int id)
         {
             return await _playerRepository.GetById(id);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<Player>> Post()
+        {
+            return await _playerRepository.Add(new Player("Jovan", "Petkoski", 184, 91, new DateTime(1995, 1, 20)) { Created = DateTime.UtcNow });
         }
 
         // DELETE api/players/{id}
